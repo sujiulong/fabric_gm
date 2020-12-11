@@ -115,13 +115,13 @@ var _ = Describe("Persistence", func() {
 			}
 
 			pkgBytes = []byte("testpkg")
-			hashString = hex.EncodeToString(util.ComputeSHA256(pkgBytes))
+			hashString = hex.EncodeToString(util.ComputeSm3(pkgBytes))
 		})
 
 		It("saves successfully", func() {
 			hash, err := store.Save("testcc", "1.0", pkgBytes)
 			Expect(err).NotTo(HaveOccurred())
-			Expect(hash).To(Equal(util.ComputeSHA256([]byte("testpkg"))))
+			Expect(hash).To(Equal(util.ComputeSm3([]byte("testpkg"))))
 		})
 
 		Context("when the metadata file already exists", func() {

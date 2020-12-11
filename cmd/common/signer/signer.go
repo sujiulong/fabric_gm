@@ -81,7 +81,7 @@ func serializeIdentity(clientCert string, mspID string) ([]byte, error) {
 }
 
 func (si *Signer) Sign(msg []byte) ([]byte, error) {
-	digest := util.ComputeSHA256(msg)
+	digest := util.ComputeSm3(msg)
 	return signECDSA(si.key, digest)
 }
 

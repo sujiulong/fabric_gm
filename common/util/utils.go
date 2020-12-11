@@ -41,9 +41,9 @@ var availableIDgenAlgs = map[string]alg{
 	defaultAlg: {GenerateIDfromTxSHAHash},
 }
 
-// ComputeSHA256 returns SHA2-256 on data
-func ComputeSHA256(data []byte) (hash []byte) {
-	hash, err := factory.GetDefault().Hash(data, &bccsp.SHA256Opts{})
+// ComputeSm3 returns SHA2-256 on data
+func ComputeSm3(data []byte) (hash []byte) {
+	hash, err := factory.GetDefault().Hash(data, &bccsp.GMSM3Opts{})
 	if err != nil {
 		panic(fmt.Errorf("Failed computing SHA256 on [% x]", data))
 	}
@@ -99,12 +99,12 @@ func CreateUtcTimestamp() *timestamp.Timestamp {
 
 //GenerateHashFromSignature returns a hash of the combined parameters
 func GenerateHashFromSignature(path string, args []byte) []byte {
-	return ComputeSHA256(args)
+	return ComputeSm3(args)
 }
 
 // GenerateIDfromTxSHAHash generates SHA256 hash using Tx payload
 func GenerateIDfromTxSHAHash(payload []byte) string {
-	return fmt.Sprintf("%x", ComputeSHA256(payload))
+	return fmt.Sprintf("%x", ComputeSm3(payload))
 }
 
 // GenerateIDWithAlg generates an ID using a custom algorithm

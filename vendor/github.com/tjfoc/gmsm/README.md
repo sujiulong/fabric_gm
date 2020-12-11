@@ -3,10 +3,10 @@ GM SM2/3/4 library based on Golang
 
 基于Go语言的国密SM2/SM3/SM4加密算法库
 
-版权所有 苏州同济区块链研究院有限公司(http://www.tj-fintech.com)
+版权所有 苏州同济区块链研究院有限公司(http://www.wutongchain.com/)
 
 
-Process Results [![Build Status](https://travis-ci.org/tjfoc/gmsm.svg?branch=develop)](https://travis-ci.org/tjfoc/gmsm)
+Process Results [![Build Status](https://travis-ci.org/tjfoc/gmsm.svg?branch=master)](https://travis-ci.org/tjfoc/gmsm)
 
 Copyright Suzhou Tongji Fintech Research Institute 2017 All Rights Reserved.
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,3 +38,7 @@ GMSM包含以下主要功能
         . 支持加密和不加密的pem文件格式(加密方法为pem block加密, 具体函数为x509.EncryptPEMBlock)
 
 关于GMSM交流： [![Join the chat at https://gitter.im/tjfoc/gmsm](https://badges.gitter.im/tjfoc/gmsm.svg)](https://gitter.im/tjfoc/gmsm?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+或发送邮件到tj@wutongchain.com
+
+ 如果你对国密算法开源技术及应用感兴趣，欢迎添加“苏州同济区块链研究院·小助手“微信，回复“国密算法进群”，加入“同济区块链国密算法交流群”。微信二维码如下:
+ ![微信二维码](https://github.com/tjfoc/wutongchian-public/blob/master/wutongchain.png)

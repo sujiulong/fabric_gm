@@ -26,8 +26,8 @@ import (
 	"github.com/hyperledger/fabric/idemix"
 	"github.com/hyperledger/fabric/msp"
 	"github.com/pkg/errors"
-	"gopkg.in/alecthomas/kingpin.v2"
 	"github.com/tjfoc/gmsm/sm2"
+	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 const (
@@ -63,7 +63,7 @@ func main() {
 
 		revocationKey, err := idemix.GenerateLongTermRevocationKey()
 		handleError(err)
-		encodedRevocationSK, err := sm2.MarshalECPrivateKey(revocationKey)
+		encodedRevocationSK, err := sm2.MarshalSm2PrivateKey(revocationKey, nil)
 		handleError(err)
 		pemEncodedRevocationSK := pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: encodedRevocationSK})
 		handleError(err)
@@ -148,7 +148,7 @@ func readRevocationKey() *sm2.PrivateKey {
 	if block == nil {
 		handleError(errors.Errorf("failed to decode ECDSA private key"))
 	}
-	key, err := sm2.ParseECPrivateKey(block.Bytes)
+	key, err := sm2.ParseSm2PrivateKey(block.Bytes)
 	handleError(err)
 
 	return key

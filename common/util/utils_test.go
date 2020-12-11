@@ -28,10 +28,10 @@ import (
 )
 
 func TestComputeSHA256(t *testing.T) {
-	if bytes.Compare(ComputeSHA256([]byte("foobar")), ComputeSHA256([]byte("foobar"))) != 0 {
+	if bytes.Compare(ComputeSm3([]byte("foobar")), ComputeSm3([]byte("foobar"))) != 0 {
 		t.Fatalf("Expected hashes to match, but they did not match")
 	}
-	if bytes.Compare(ComputeSHA256([]byte("foobar1")), ComputeSHA256([]byte("foobar2"))) == 0 {
+	if bytes.Compare(ComputeSm3([]byte("foobar1")), ComputeSm3([]byte("foobar2"))) == 0 {
 		t.Fatalf("Expected hashes to be different, but they match")
 	}
 }
