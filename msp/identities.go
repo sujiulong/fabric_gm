@@ -143,29 +143,17 @@ func NewSerializedIdentity(mspID string, certPEM []byte) ([]byte, error) {
 // to determine whether this identity produced the
 // signature; it returns nil if so or an error otherwise
 func (id *identity) Verify(msg []byte, sig []byte) error {
-	// mspIdentityLogger.Infof("Verifying signature")
-
-	// Compute Hash
-	hashOpt, err := id.getHashOpt(id.msp.cryptoConfig.SignatureHashFamily)
-	if err != nil {
-		return errors.WithMessage(err, "failed getting hash function options")
-	}
-
-	digest, err := id.msp.bccsp.Hash(msg, hashOpt)
-	if err != nil {
-		return errors.WithMessage(err, "failed computing digest")
-	}
-
+	mspIdentityLogger.Infof("Verifying signature")
 	if mspIdentityLogger.IsEnabledFor(zapcore.DebugLevel) {
-		mspIdentityLogger.Debugf("Verify: digest = %s", hex.Dump(digest))
+		mspIdentityLogger.Debugf("Verify: msg: %X...%X \n", msg[0:16], msg[len(msg)-16:])
 		mspIdentityLogger.Debugf("Verify: sig = %s", hex.Dump(sig))
 	}
 
-	valid, err := id.msp.bccsp.Verify(id.pk, sig, digest, nil)
+	valid, err := id.msp.bccsp.Verify(id.pk, sig, msg, nil)
 	if err != nil {
 		return errors.WithMessage(err, "could not determine the validity of the signature")
 	} else if !valid {
-		return errors.New("The signature is invalidaaa")
+		return errors.New("The signature is invalid")
 	}
 
 	return nil
@@ -222,28 +210,15 @@ func newSigningIdentity(cert *sm2.Certificate, pk bccsp.Key, signer crypto.Signe
 
 // Sign produces a signature over msg, signed by this instance
 func (id *signingidentity) Sign(msg []byte) ([]byte, error) {
-	//mspIdentityLogger.Infof("Signing message")
-
-	// Compute Hash
-	hashOpt, err := id.getHashOpt(id.msp.cryptoConfig.SignatureHashFamily)
-	if err != nil {
-		return nil, errors.WithMessage(err, "failed getting hash function options")
-	}
-
-	digest, err := id.msp.bccsp.Hash(msg, hashOpt)
-	if err != nil {
-		return nil, errors.WithMessage(err, "failed computing digest")
-	}
-
+	mspIdentityLogger.Infof("Signing message")
 	if len(msg) < 32 {
 		mspIdentityLogger.Debugf("Sign: plaintext: %X \n", msg)
 	} else {
 		mspIdentityLogger.Debugf("Sign: plaintext: %X...%X \n", msg[0:16], msg[len(msg)-16:])
 	}
-	mspIdentityLogger.Debugf("Sign: digest: %X \n", digest)
 
 	// Sign
-	return id.signer.Sign(rand.Reader, digest, nil)
+	return id.signer.Sign(rand.Reader, msg, nil)
 }
 
 // GetPublicVersion returns the public version of this identity,
